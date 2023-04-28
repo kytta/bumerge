@@ -1,0 +1,173 @@
+# SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
+#
+# SPDX-License-Identifier: BSD-2-Clause
+
+[build-system]
+build-backend = "hatchling.build"
+requires = [
+  "hatchling",
+]
+
+[project]
+name = "bumerge"
+description = "Merge Butane configurations"
+readme = "README.md"
+license = "BSD-2-Clause"
+maintainers = [
+    { name = "Nikita Karamov", email = "me@kytta.dev" },
+]
+authors = [
+    { name = "Nikita Karamov", email = "me@kytta.dev" },
+]
+requires-python = ">=3.9"
+classifiers = [
+  "Development Status :: 1 - Planning",
+  "Environment :: Console",
+  "Intended Audience :: System Administrators",
+  "License :: OSI Approved :: BSD License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Topic :: System :: Systems Administration",
+  "Typing :: Typed",
+]
+dynamic = [
+  "version",
+]
+dependencies = [
+]
+[project.urls]
+"Bug tracker" = "https://github.com/kytta/bumerge/issues"
+Changelog = "https://github.com/kytta/bumerge/blob/main/CHANGELOG.md"
+Funding = "https://github.com/sponsors/kytta"
+"Source Code" = "https://github.com/kytta/bumerge/"
+[project.scripts]
+bumerge = "bumerge:main"
+
+[tool.hatch.version]
+path = "bumerge.py"
+
+[tool.hatch.envs.default]
+dependencies = [
+  "pytest",
+  "coverage[toml]",
+  "covdefaults",
+]
+[tool.hatch.envs.default.scripts]
+test = [
+    "pytest {args:tests}",
+]
+cov = [
+    "coverage erase",
+    "coverage run -m pytest {args:tests}",
+    "coverage report",
+    "coverage xml"
+]
+[[tool.hatch.envs.test.matrix]]
+python = ["39", "310", "311"]
+
+[tool.coverage.run]
+plugins = ["covdefaults"]
+
+[tool.mypy]
+python_version = 3.9
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+ignore_missing_imports = true
+check_untyped_defs = false
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+
+[tool.autopep8]
+ignore = ["W503"]
+
+[tool.ruff]
+line-length = 79
+format = "grouped"
+show-source = true
+
+select = [
+    "F",
+    "E",
+    "W",
+    "C90",
+    "I",
+    "N",
+    "D",
+    "UP",
+    "YTT",
+    "ANN",
+    "S",
+    "BLE",
+    "FBT",
+    "B",
+    "A",
+    "COM",
+    "C4",
+    "DTZ",
+    "T10",
+    "EM",
+    "EXE",
+    "ISC",
+    "ICN",
+    "INP",
+    "PIE",
+    "T20",
+    "PT",
+    "Q",
+    "RSE",
+    "RET",
+    "SLF",
+    "SIM",
+    "TID",
+    "TCH",
+    "ARG",
+    "PTH",
+    "ERA",
+    "PGH",
+    "PL",
+    "TRY",
+    "RUF",
+]
+extend-ignore = [
+    "ANN101",  # mypy knows what 'self' is
+]
+unfixable = ["ERA001"]
+
+[tool.ruff.per-file-ignores]
+"src/*" = [
+    "PT",
+]
+"tests/*" = [
+    "ANN",  # type annotations
+    "D",  # docstrings
+    "FBT001",  # Boolean positional arg in function definition
+    "PLR0913",  # too many function arguments
+    "PLR2004",  # magic values
+    "S101",  # use of assert detected
+]
+
+[tool.ruff.flake8-annotations]
+allow-star-arg-any = true
+
+[tool.ruff.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.isort]
+force-single-line = true
+
+[tool.ruff.pycodestyle]
+max-doc-length = 72
+
+[tool.ruff.pydocstyle]
+convention = "pep257"
