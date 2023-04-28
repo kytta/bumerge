@@ -44,3 +44,37 @@ def _main(argv: Sequence[str] | None = None) -> None:
 
 if __name__ == "__main__":
     _main()
+
+from typing import Any
+
+__version__ = "0.1.0"
+
+# A very simple dict type for the config
+# TODO: use a proper schema (with validation?)
+JSONDict = dict[str, Any]
+
+
+def merge_dicts(source: JSONDict, destination: JSONDict) -> JSONDict:
+    """Merge one JSON-valid dictionary into another.
+
+    This goes over every key in `source` and sets the keys in
+    `destination` with the values, replacing on duplicates. If it
+    encounters another dict, it will merge it recursively.
+
+    :param source: the dictionary to be merged
+    :param destination: the dictionary to be merged into
+
+    :return: the result of merging two dicts
+    """
+    for key, value in source.items():
+        if isinstance(value, dict):
+            # get node or create one
+            node = destination.setdefault(key, {})
+            if not isinstance(node, dict):
+                destination[key] = value
+            else:
+                merge_dicts(value, node)
+        else:
+            destination[key] = value
+
+    return destination
