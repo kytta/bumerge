@@ -48,3 +48,71 @@ def test_merge_dicts(
     retval = bumerge.merge_dicts(source, destination)
 
     assert retval == result
+
+
+def test_read_config_files(shared_datadir: Path):
+    config_files = [
+        shared_datadir / "root.bu",
+        shared_datadir / "users.bu",
+        shared_datadir / "disks.bu",
+        shared_datadir / "filesystems.bu",
+    ]
+
+    retval = bumerge.read_config_files(config_files)
+
+    assert retval == [
+        {
+            "variant": "fcos",
+            "version": "1.5.0",
+        },
+        {
+            "passwd": {
+                "users": [
+                    {
+                        "name": "admin",
+                        "groups": [
+                            "sudo",
+                            "wheel",
+                        ],
+                        "ssh_authorized_keys": [
+                            "ssh-ed25519 ...",
+                        ],
+                    },
+                ],
+            },
+        },
+        {
+            "storage": {
+                "disks": [
+                    {
+                        "device": "/dev/disk/by-id/coreos-boot-disk",
+                        "wipe_table": False,
+                        "partitions": [
+                            {
+                                "label": "root",
+                                "number": 4,
+                                "size_mib": 8192,
+                                "resize": True,
+                            },
+                            {
+                                "label": "var",
+                                "size_mib": 0,
+                            },
+                        ],
+                    },
+                ],
+            },
+        },
+        {
+            "storage": {
+                "filesystems": [
+                    {
+                        "device": "/dev/disk/by-partlabel/var",
+                        "format": "ext4",
+                        "path": "/var",
+                        "with_mount_unit": True,
+                    },
+                ],
+            },
+        },
+    ]

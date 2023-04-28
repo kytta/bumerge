@@ -45,7 +45,11 @@ def _main(argv: Sequence[str] | None = None) -> None:
 if __name__ == "__main__":
     _main()
 
+from collections.abc import Iterable
+from pathlib import Path
 from typing import Any
+
+from ruamel.yaml import YAML
 
 __version__ = "0.1.0"
 
@@ -78,3 +82,18 @@ def merge_dicts(source: JSONDict, destination: JSONDict) -> JSONDict:
             destination[key] = value
 
     return destination
+
+
+def read_config_files(config_files: Iterable[Path]) -> list[JSONDict]:
+    """Read config files and return the configurations.
+
+    :param config_files: list of configuration files to parse
+    :return: list of parsed configurations
+    """
+    yaml = YAML(typ="safe", pure=True)
+    result = []
+    for file in config_files:
+        with file.open() as fp:
+            result.append(yaml.load(fp))
+
+    return result

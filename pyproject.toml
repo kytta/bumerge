@@ -38,6 +38,7 @@ dynamic = [
   "version",
 ]
 dependencies = [
+  "ruamel.yaml>=0.15",
 ]
 [project.urls]
 "Bug tracker" = "https://github.com/kytta/bumerge/issues"
@@ -53,6 +54,7 @@ path = "bumerge.py"
 [tool.hatch.envs.default]
 dependencies = [
   "pytest",
+  "pytest-datadir",
   "coverage[toml]",
   "covdefaults",
 ]
