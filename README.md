@@ -36,7 +36,18 @@ the latter file takes precedence.
 
 ### Command-line arguments
 
-TBA
+```sh
+$ bumerge --help
+usage: bumerge [-h] [--version] [--output FILE] FILE [FILE ...]
+
+positional arguments:
+  FILE                  config files to merge
+
+options:
+  -h, --help                 show help message and exit
+  --version, -V              show program's version number and exit
+  --output FILE, -o FILE     output file. Outputs to stdout by default
+```
 
 ## Licence
 

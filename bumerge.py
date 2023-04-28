@@ -31,7 +31,7 @@ if TYPE_CHECKING:
 
 from ruamel.yaml import YAML
 
-__version__ = "0.1.0rc0"
+__version__ = "0.1.0rc1"
 
 # A very simple dict type for the config
 # TODO: use a proper schema (with validation?)
