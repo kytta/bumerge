@@ -38,6 +38,7 @@ dynamic = [
   "version",
 ]
 dependencies = [
+  "pydantic<2,>=1",
   "ruamel.yaml>=0.15",
 ]
 [project.urls]
@@ -75,6 +76,9 @@ python = ["39", "310", "311"]
 plugins = ["covdefaults"]
 
 [tool.mypy]
+plugins = [
+  "pydantic.mypy"
+]
 python_version = 3.9
 check_untyped_defs = true
 disallow_any_generics = true
@@ -169,7 +173,12 @@ ban-relative-imports = "all"
 
 [tool.ruff.isort]
 force-single-line = true
-required-imports = ["from __future__ import annotations"]
+
+[tool.ruff.pep8-naming]
+classmethod-decorators = [
+    "pydantic.root_validator",
+    "pydantic.validator"
+]
 
 [tool.ruff.pycodestyle]
 max-doc-length = 72

@@ -19,20 +19,24 @@ Source code is hosted on GitHub:
 SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
 SPDX-License-Identifier: BSD-2-Clause
 """
-from __future__ import annotations
-
 import sys
+from collections.abc import Iterable
+from collections.abc import Sequence
 from pathlib import Path
-from typing import TYPE_CHECKING
 from typing import Any
 from typing import Literal
+from typing import Optional
 from typing import TypeVar
+from uuid import UUID
 
-if TYPE_CHECKING:
-    from collections.abc import Iterable
-    from collections.abc import Sequence
-
+from pydantic import BaseModel
+from pydantic import StrictInt
+from pydantic import root_validator
 from ruamel.yaml import YAML
+
+yaml = YAML(typ="safe", pure=True)
+yaml.sort_base_mapping_type_on_output = False
+yaml.default_flow_style = False
 
 __version__ = "0.2.0"
 
@@ -45,10 +49,306 @@ Variant = Literal["fcos"]
 Version = str
 
 
+class Entity(BaseModel):
+    id: Optional[StrictInt]  # noqa: A003
+    name: Optional[str]
+
+
+class FSObject(BaseModel):
+    path: str
+    overwrite: Optional[bool]
+    user: Optional[Entity]
+    group: Optional[Entity]
+
+
+class Tang(BaseModel):
+    url: str
+    thumbprint: str
+    advertisement: Optional[str]
+
+
+class LUKSBoot(BaseModel):
+    tang: Optional[list[Tang]]
+    tpm2: Optional[bool]
+    threshold: Optional[StrictInt]
+    discard: Optional[bool]
+
+
+class BootMirror(BaseModel):
+    devices: Optional[list[str]]
+
+
+class BootDevice(BaseModel):
+    layout: Optional[str]
+    luks: Optional[LUKSBoot]
+    mirror: Optional[BootMirror]
+
+
+class CustomClevis(BaseModel):
+    pin: str
+    config: str
+    needs_network: Optional[bool]
+
+
+class Clevis(BaseModel):
+    tang: Optional[list[Tang]]
+    tpm2: Optional[bool]
+    threshold: Optional[StrictInt]
+    custom: Optional[CustomClevis]
+
+
+class Directory(FSObject):
+    mode: Optional[StrictInt]
+
+
+class Partition(BaseModel):
+    label: Optional[str]
+    number: Optional[StrictInt]
+    size_mib: Optional[StrictInt]
+    start_mib: Optional[StrictInt]
+    type_guid: Optional[UUID]
+    guid: Optional[UUID]
+    wipe_partition_entry: Optional[bool]
+    should_exist: Optional[bool]
+    resize: Optional[bool]
+
+
+class Disk(BaseModel):
+    device: str
+    wipe_table: Optional[bool]
+    partitions: Optional[list[Partition]]
+
+
+class Dropin(BaseModel):
+    name: str
+    contents: Optional[str]
+    contents_local: Optional[str]
+
+    @root_validator()
+    def _mutually_exclusive(cls, values: dict[str, Any]) -> dict[str, Any]:
+        if values.get("contents") and values.get("contents_local"):
+            _msg = "'contents' and 'contents_local' are mutually exclusive."
+            raise ValueError(_msg)
+
+        return values
+
+
+class HttpHeader(BaseModel):
+    name: str
+    value: Optional[str]
+
+
+class Verification(BaseModel):
+    hash: Optional[str]  # noqa: A003
+
+
+class FileContents(BaseModel):
+    source: str
+    inline: str
+    local: str
+    compression: Optional[Literal["gzip"]]
+    http_headers: Optional[list[HttpHeader]]
+    verification: Optional[Verification]
+
+    @root_validator()
+    def _mutually_exclusive(cls, values: dict[str, Any]) -> dict[str, Any]:
+        if values.get("source") and values.get("inline") \
+                or values.get("source") and values.get("local") \
+                or values.get("inline") and values.get("local"):
+            _msg = "'source', 'inline', and 'local' are mutually exclusive."
+            raise ValueError(_msg)
+        return values
+
+
+class File(FSObject):
+    contents: Optional[FileContents]
+    append: Optional[list[FileContents]]
+    mode: Optional[StrictInt]
+
+
+class Filesystem(BaseModel):
+    device: str
+    format: Literal[  # noqa: A003
+        "ext4", "btrfs", "xfs", "vfat", "swap", "none"]
+    path: Optional[str]
+    wipe_filesystem: Optional[bool]
+    label: Optional[str]
+    uuid: Optional[UUID]
+    options: Optional[list[str]]
+    mount_options: Optional[list[str]]
+    with_mount_unit: Optional[bool]
+
+
+class GrubUser(BaseModel):
+    name: str
+    password_hash: str
+
+
+class Grub(BaseModel):
+    users: Optional[list[GrubUser]]
+
+
+class IgnitionConfig(BaseModel):
+    merge: Optional[list[FileContents]]
+    replace: Optional[FileContents]
+
+
+class Proxy(BaseModel):
+    http_proxy: Optional[str]
+    https_proxy: Optional[str]
+    no_proxy: Optional[list[str]]
+
+
+class TLS(BaseModel):
+    certificate_authorities: Optional[list[FileContents]]
+
+
+class Security(BaseModel):
+    tls: Optional[TLS]
+
+
+class Timeouts(BaseModel):
+    http_response_headers: StrictInt
+    http_total: StrictInt
+
+
+class IgnitionSchema(BaseModel):
+    config: Optional[IgnitionConfig]
+    timeouts: Optional[Timeouts]
+    security: Optional[Security]
+    proxy: Optional[Proxy]
+
+
+class Link(FSObject):
+    target: str
+    hard: Optional[bool]
+
+
+class LUKS(BaseModel):
+    name: str
+    device: str
+    key_file: Optional[FileContents]
+    label: Optional[str]
+    uuid: Optional[UUID]
+    options: Optional[list[str]]
+    discard: Optional[bool]
+    open_options: Optional[list[str]]
+    wipe_volume: Optional[bool]
+    clevis: Optional[Clevis]
+
+
+class KernelArguments(BaseModel):
+    should_exist: Optional[list[str]]
+    should_not_exist: Optional[list[str]]
+
+
+class PasswdGroup(BaseModel):
+    name: str
+    gid: Optional[StrictInt]
+    password_hash: Optional[str]
+    should_exist: Optional[bool]
+    system: Optional[bool]
+
+
+class PasswdUser(BaseModel):
+    name: str
+    password_hash: Optional[str]
+    ssh_authorized_keys: Optional[list[str]]
+    uid: Optional[StrictInt]
+    gecos: Optional[str]
+    home_dir: Optional[str]
+    no_create_home: Optional[bool]
+    primary_group: Optional[str]
+    groups: Optional[list[str]]
+    no_user_group: Optional[bool]
+    no_log_init: Optional[bool]
+    shell: Optional[str]
+    should_exist: Optional[bool]
+    system: Optional[bool]
+
+    class Config:
+        fields = {
+            "ssh_authorized_keys": {
+                "unique_items": True,
+            },
+        }
+
+
+class PasswdSchema(BaseModel):
+    users: Optional[list[PasswdUser]]
+    groups: Optional[list[PasswdGroup]]
+
+
+class RAID(BaseModel):
+    name: str
+    level: str
+    devices: list[str]
+    spares: Optional[StrictInt]
+    options: Optional[list[str]]
+
+
+class Tree(BaseModel):
+    local: str
+    path: Optional[str]
+
+
+class StorageSchema(BaseModel):
+    disks: Optional[list[Disk]]
+    raid: Optional[list[RAID]]
+    filesystems: Optional[list[Filesystem]]
+    files: Optional[list[File]]
+    directories: Optional[list[Directory]]
+    links: Optional[list[Link]]
+    luks: Optional[list[LUKS]]
+    trees: Optional[list[Tree]]
+
+
+class SystemdUnit(BaseModel):
+    name: str
+    enabled: Optional[bool]
+    mask: Optional[bool]
+    contents: Optional[str]
+    contents_local: Optional[str]
+    dropins: Optional[list[Dropin]]
+
+    @root_validator()
+    def _mutually_exclusive(cls, values: dict[str, Any]) -> dict[str, Any]:
+        if values.get("contents") and values.get("contents_local"):
+            _msg = "'contents' and 'contents_local' are mutually exclusive."
+            raise ValueError(_msg)
+        return values
+
+
+class SystemdSchema(BaseModel):
+    units: Optional[list[SystemdUnit]]
+
+
+class FCOS150Schema(BaseModel):
+    """Schema for Fedora CoreOS Specification v1.5.0.
+
+    See: https://coreos.github.io/butane/config-fcos-v1_5/
+    """
+
+    variant: Literal["fcos"] = "fcos"
+    version: Literal["1.5.0"] = "1.5.0"
+    ignition: Optional[IgnitionSchema]
+    storage: Optional[StorageSchema]
+    systemd: Optional[SystemdSchema]
+    passwd: Optional[PasswdSchema]
+    kernel_arguments: Optional[KernelArguments]
+    boot_device: Optional[BootDevice]
+    grub: Optional[Grub]
+
+
 class ConfigurationError(BaseException):
     """Base exception class for configuration errors."""
 
-    def __init__(self, message: str = "", *, field: str | None = None) -> None:
+    def __init__(
+        self,
+        message: str = "",
+        *,
+        field: Optional[str] = None,
+    ) -> None:
         """Create a configuration error instance.
 
         :param message: message that describes the error
@@ -70,7 +370,7 @@ class ConfigurationError(BaseException):
 class FieldRequiredError(ConfigurationError):
     """Exception class for missing fields."""
 
-    def __init__(self, field: str, flag: str | None = None) -> None:
+    def __init__(self, field: str, flag: Optional[str] = None) -> None:
         """Create a missing field error instance.
 
         :param field: name of the field that is missing
@@ -98,7 +398,7 @@ class FieldMismatchError(ConfigurationError):
         field: str,
         expected: T,
         actual: T,
-        flag: str | None = None,
+        flag: Optional[str] = None,
     ) -> None:
         """Create a field mismatch error instance.
 
@@ -153,12 +453,12 @@ def read_config_files(config_files: Iterable[Path]) -> list[JSONDict]:
     :param config_files: list of configuration files to parse
     :return: list of parsed configurations
     """
-    yaml = YAML(typ="safe", pure=True)
     result = []
+
     for file in config_files:
         try:
-            with file.open() as fp:
-                result.append(yaml.load(fp))
+            with file.open() as f:
+                result.append(yaml.load(f))
         except OSError as exc:
             raise ConfigurationError(str(exc)) from exc
 
@@ -167,8 +467,8 @@ def read_config_files(config_files: Iterable[Path]) -> list[JSONDict]:
 
 def validate_config(
     config: JSONDict,
-    variant: Variant | None,
-    version: Version | None,
+    variant: Optional[Variant],
+    version: Optional[Version],
 ) -> JSONDict:
     """Validate the configuration.
 
@@ -216,7 +516,7 @@ def validate_config(
     return config
 
 
-def _main(argv: Sequence[str] | None = None) -> None:
+def _main(argv: Optional[Sequence[str]] = None) -> None:
     import argparse
 
     parser = argparse.ArgumentParser()
@@ -229,8 +529,8 @@ def _main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument(
         "--output",
         "-o",
-        type=argparse.FileType("w", encoding="UTF-8"),
-        default="-",
+        type=Path,
+        default=None,
         help="output file. Outputs to stdout by default",
         metavar="FILE",
     )
@@ -270,10 +570,13 @@ def _main(argv: Sequence[str] | None = None) -> None:
         sys.stderr.write(f"{exc}\n")
         raise SystemExit(1) from exc
 
-    yaml = YAML(typ="safe", pure=True)
-    yaml.default_flow_style = False
+    result = FCOS150Schema.parse_obj(result).dict(exclude_unset=True)
 
-    yaml.dump(result, args.output)
+    if args.output is None:
+        yaml.dump(result, sys.stdout)
+    else:
+        with args.output.open("w") as f:
+            yaml.dump(result, f)
 
 
 if __name__ == "__main__":
