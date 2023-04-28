@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
+# SPDX-License-Identifier: BSD-2-Clause
+
+passwd:
+  users:
+    - name: admin
+      groups:
+        - sudo
+        - wheel
+      ssh_authorized_keys:
+        - "ssh-ed25519 ..."

@@ -38,6 +38,7 @@ dynamic = [
   "version",
 ]
 dependencies = [
+  "ruamel.yaml>=0.15",
 ]
 [project.urls]
 "Bug tracker" = "https://github.com/kytta/bumerge/issues"
@@ -53,6 +54,7 @@ path = "bumerge.py"
 [tool.hatch.envs.default]
 dependencies = [
   "pytest",
+  "pytest-datadir",
   "coverage[toml]",
   "covdefaults",
 ]
@@ -155,6 +157,7 @@ unfixable = ["ERA001"]
     "PLR0913",  # too many function arguments
     "PLR2004",  # magic values
     "S101",  # use of assert detected
+    "SLF001",  # private method accessed
 ]
 
 [tool.ruff.flake8-annotations]

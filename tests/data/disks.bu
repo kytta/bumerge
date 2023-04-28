@@ -1,0 +1,15 @@
+# SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
+# SPDX-License-Identifier: BSD-2-Clause
+
+storage:
+  disks:
+    - device: /dev/disk/by-id/coreos-boot-disk
+      wipe_table: false
+
+      partitions:
+        - label: root
+          number: 4
+          size_mib: 8192
+          resize: true
+        - label: var
+          size_mib: 0
