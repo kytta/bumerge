@@ -12,7 +12,7 @@ requires = [
 name = "bumerge"
 description = "Merge Butane configurations"
 readme = "README.md"
-license = "BSD-2-Clause"
+license = {text = "BSD-2-Clause"}
 maintainers = [
     { name = "Nikita Karamov", email = "me@kytta.dev" },
 ]
