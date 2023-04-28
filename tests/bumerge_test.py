@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: BSD-2-Clause
 from __future__ import annotations
 
+from contextlib import nullcontext
 from typing import TYPE_CHECKING
 
 import pytest
@@ -25,6 +26,24 @@ def test_main(capsys, argv, output):
 
     captured = capsys.readouterr()
     assert output in captured.out
+
+
+@pytest.mark.parametrize(
+    ("file", "printed"), [
+        ("users.bu", "Error in field"),
+        ("idontexist.bu", "Configuration error:"),
+    ],
+)
+def test_main_bad_config(
+        capsys,
+        shared_datadir: Path,
+        file: str,
+        printed: str):
+    with pytest.raises(SystemExit):
+        bumerge._main([str(shared_datadir / file)])
+
+    captured = capsys.readouterr()
+    assert printed in captured.err
 
 
 def test_main_with_files(capsys, shared_datadir: Path):
@@ -174,3 +193,28 @@ def test_read_config_files(shared_datadir: Path):
             },
         },
     ]
+
+
+@pytest.mark.parametrize(
+    ("config", "variant", "version", "context", "result"), [
+        ({}, None, None, pytest.raises(bumerge.FieldRequiredError), None),
+        ({"version": "1.5.0"}, None, None, pytest.raises(
+            bumerge.FieldRequiredError), None),
+        ({"variant": "fcos"}, None, None, pytest.raises(
+            bumerge.FieldRequiredError), None),
+        ({"version": "1.5.0"}, "fcos", "1.5.0", nullcontext(),
+         {"version": "1.5.0", "variant": "fcos"}),
+        ({"variant": "fcos"}, "fcos", "1.5.0", nullcontext(),
+         {"variant": "fcos", "version": "1.5.0"}),
+        ({"version": "1.4.0", "variant": "fcos"}, "fcos", "1.5.0",
+         pytest.raises(bumerge.FieldMismatchError), None),
+        ({"version": "1.5.0", "variant": "openshift"}, "fcos", "1.5.0",
+         pytest.raises(bumerge.FieldMismatchError), None),
+    ],
+)
+def test_validate_config(config, variant, version, context, result):
+    with context:
+        retval = bumerge.validate_config(config, variant, version)
+
+    if result:
+        assert retval == result
