@@ -45,7 +45,7 @@ Changelog = "https://github.com/kytta/bumerge/blob/main/CHANGELOG.md"
 Funding = "https://github.com/sponsors/kytta"
 "Source Code" = "https://github.com/kytta/bumerge/"
 [project.scripts]
-bumerge = "bumerge:main"
+bumerge = "bumerge:_main"
 
 [tool.hatch.version]
 path = "bumerge.py"
@@ -165,6 +165,7 @@ ban-relative-imports = "all"
 
 [tool.ruff.isort]
 force-single-line = true
+required-imports = ["from __future__ import annotations"]
 
 [tool.ruff.pycodestyle]
 max-doc-length = 72
