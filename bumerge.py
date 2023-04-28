@@ -237,14 +237,14 @@ def _main(argv: Sequence[str] | None = None) -> None:
     parser.add_argument(
         "--variant",
         default=None,
-        help="output file. Outputs to stdout by default",
-        metavar="FILE",
+        choices=["fcos"],
+        help="Butane specification variant",
     )
     parser.add_argument(
         "--spec-version",
         default=None,
-        help="output file. Outputs to stdout by default",
-        metavar="FILE",
+        choices=["1.5.0"],
+        help="Butane specification version",
     )
     parser.add_argument(
         "files",
