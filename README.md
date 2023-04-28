@@ -37,16 +37,19 @@ the latter file takes precedence.
 ### Command-line arguments
 
 ```sh
-$ bumerge --help
-usage: bumerge [-h] [--version] [--output FILE] FILE [FILE ...]
+usage: bumerge [-h] [--version] [--output FILE] [--variant {fcos}]
+               [--spec-version {1.5.0}]
+               FILE [FILE ...]
 
 positional arguments:
   FILE                  config files to merge
 
 options:
-  -h, --help                 show help message and exit
-  --version, -V              show program's version number and exit
-  --output FILE, -o FILE     output file. Outputs to stdout by default
+  -h, --help               show this help message and exit
+  --version, -V            show program's version number and exit
+  --output FILE, -o FILE   output file. Outputs to stdout by default
+  --variant {fcos}         Butane specification variant
+  --spec-version {1.5.0}   Butane specification version
 ```
 
 ## Licence
