@@ -21,7 +21,6 @@ SPDX-License-Identifier: BSD-2-Clause
 """
 from __future__ import annotations
 
-import sys
 from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
@@ -91,6 +90,14 @@ def _main(argv: Sequence[str] | None = None) -> None:
         version=__version__,
     )
     parser.add_argument(
+        "--output",
+        "-o",
+        type=argparse.FileType("w", encoding="UTF-8"),
+        default="-",
+        help="output file. Outputs to stdout by default",
+        metavar="FILE",
+    )
+    parser.add_argument(
         "files",
         nargs="+",
         type=Path,
@@ -107,7 +114,7 @@ def _main(argv: Sequence[str] | None = None) -> None:
     yaml = YAML(typ="safe", pure=True)
     yaml.default_flow_style = False
 
-    yaml.dump(result, sys.stdout)
+    yaml.dump(result, args.output)
 
 
 if __name__ == "__main__":

@@ -69,6 +69,22 @@ version: 1.5.0
     assert expected_output in captured.out
 
 
+def test_main_writes_to_file(shared_datadir, tmp_path):
+    argv = [
+        "--output",
+        str(tmp_path / "output.bu"),
+        str((shared_datadir / "root.bu").resolve()),
+    ]
+    expected_output = """\
+variant: fcos
+version: 1.5.0
+"""
+
+    bumerge._main(argv)
+
+    assert (tmp_path / "output.bu").read_text() == expected_output
+
+
 @pytest.mark.parametrize(
     ("source", "destination", "result"), [
         ({}, {}, {}),
