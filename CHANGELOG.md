@@ -6,7 +6,7 @@ SPDX-License-Identifier: CC-BY-4.0 OR BSD-2-Clause
 
 # bumerge changelog
 
-## Unreleased
+## [0.2.0] - 2023-04-28
 
 ### Added
 
@@ -22,4 +22,5 @@ SPDX-License-Identifier: CC-BY-4.0 OR BSD-2-Clause
 
 <!-- Per-version diffs -->
 
-[0.1.0]: https://github.com/kytta/bumerge/compare/386c01fe45029a6d6ef1185cd364a37040795e26...main
+[0.2.0]: https://github.com/kytta/bumerge/compare/v0.1.0...v0.2.0
+[0.1.0]: https://github.com/kytta/bumerge/compare/386c01fe45029a6d6ef1185cd364a37040795e26...v0.1.0
