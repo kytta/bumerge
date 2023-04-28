@@ -22,32 +22,12 @@ SPDX-License-Identifier: BSD-2-Clause
 from __future__ import annotations
 
 from typing import TYPE_CHECKING
+from typing import Any
 
 if TYPE_CHECKING:
+    from collections.abc import Iterable
     from collections.abc import Sequence
-
-__version__ = "0.1.0"
-
-
-def _main(argv: Sequence[str] | None = None) -> None:
-    import argparse
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--version",
-        "-V",
-        action="version",
-        version=__version__,
-    )
-    parser.parse_args(argv)
-
-
-if __name__ == "__main__":
-    _main()
-
-from collections.abc import Iterable
-from pathlib import Path
-from typing import Any
+    from pathlib import Path
 
 from ruamel.yaml import YAML
 
@@ -97,3 +77,20 @@ def read_config_files(config_files: Iterable[Path]) -> list[JSONDict]:
             result.append(yaml.load(fp))
 
     return result
+
+
+def _main(argv: Sequence[str] | None = None) -> None:
+    import argparse
+
+    parser = argparse.ArgumentParser()
+    parser.add_argument(
+        "--version",
+        "-V",
+        action="version",
+        version=__version__,
+    )
+    parser.parse_args(argv)
+
+
+if __name__ == "__main__":
+    _main()
