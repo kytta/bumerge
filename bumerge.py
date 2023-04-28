@@ -21,13 +21,14 @@ SPDX-License-Identifier: BSD-2-Clause
 """
 from __future__ import annotations
 
+import sys
+from pathlib import Path
 from typing import TYPE_CHECKING
 from typing import Any
 
 if TYPE_CHECKING:
     from collections.abc import Iterable
     from collections.abc import Sequence
-    from pathlib import Path
 
 from ruamel.yaml import YAML
 
@@ -89,7 +90,24 @@ def _main(argv: Sequence[str] | None = None) -> None:
         action="version",
         version=__version__,
     )
-    parser.parse_args(argv)
+    parser.add_argument(
+        "files",
+        nargs="+",
+        type=Path,
+        help="config files to merge",
+        metavar="FILE",
+    )
+    args = parser.parse_args(argv)
+
+    result: JSONDict = {}
+
+    for config in read_config_files(args.files):
+        merge_dicts(config, result)
+
+    yaml = YAML(typ="safe", pure=True)
+    yaml.default_flow_style = False
+
+    yaml.dump(result, sys.stdout)
 
 
 if __name__ == "__main__":

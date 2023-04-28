@@ -157,6 +157,7 @@ unfixable = ["ERA001"]
     "PLR0913",  # too many function arguments
     "PLR2004",  # magic values
     "S101",  # use of assert detected
+    "SLF001",  # private method accessed
 ]
 
 [tool.ruff.flake8-annotations]

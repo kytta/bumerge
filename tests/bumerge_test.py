@@ -14,17 +14,59 @@ import bumerge
 
 @pytest.mark.parametrize(
     ("argv", "output"), [
-        (None, ""),
+        ([], ""),
         (["--version"], bumerge.__version__),
         (["--help"], "usage:"),
     ],
 )
 def test_main(capsys, argv, output):
     with pytest.raises(SystemExit):
-        bumerge._main(argv)  # noqa: SLF001
+        bumerge._main(argv)
 
     captured = capsys.readouterr()
     assert output in captured.out
+
+
+def test_main_with_files(capsys, shared_datadir: Path):
+    files = [
+        shared_datadir / "root.bu",
+        shared_datadir / "users.bu",
+        shared_datadir / "disks.bu",
+        shared_datadir / "filesystems.bu",
+    ]
+    expected_output = """\
+passwd:
+  users:
+  - groups:
+    - sudo
+    - wheel
+    name: admin
+    ssh_authorized_keys:
+    - ssh-ed25519 ...
+storage:
+  disks:
+  - device: /dev/disk/by-id/coreos-boot-disk
+    partitions:
+    - label: root
+      number: 4
+      resize: true
+      size_mib: 8192
+    - label: var
+      size_mib: 0
+    wipe_table: false
+  filesystems:
+  - device: /dev/disk/by-partlabel/var
+    format: ext4
+    path: /var
+    with_mount_unit: true
+variant: fcos
+version: 1.5.0
+"""
+
+    bumerge._main([str(f) for f in files])
+
+    captured = capsys.readouterr()
+    assert expected_output in captured.out
 
 
 @pytest.mark.parametrize(
