@@ -1,6 +1,6 @@
 <!--
 SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
-SPDX-License-Identifier: CC-BY-4.0 OR BSD-2-Clause
+SPDX-License-Identifier: CC-BY-4.0 OR BSD-3-Clause
 -->
 
 # bumerge
@@ -55,7 +55,7 @@ options:
 ## Licence
 
 © 2023 [Nikita Karamov]\
-Licensed under the [BSD 2-Clause "Simplified" License][BSD-2-Clause].
+Licensed under the [BSD 3-Clause "New" or "Revised" License][BSD-3-Clause].
 
 This README can also be licensed under the
 [Creative Commons Attribution 4.0 International][CC-BY-4.0]
@@ -66,7 +66,7 @@ This project is hosted on GitHub:
 <https://github.com/kytta/bumerge.git>
 
 [Butane]: https://coreos.github.io/butane/
-[BSD-2-Clause]: https://spdx.org/licenses/BSD-2-Clause.html
+[BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
 [CC-BY-4.0]: https://spdx.org/licenses/CC-BY-4.0.html
 [fcos-1.5]: https://coreos.github.io/butane/config-fcos-v1_5/
 [nikita karamov]: https://www.kytta.dev/

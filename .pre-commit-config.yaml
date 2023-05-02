@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
 #
-# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-License-Identifier: BSD-3-Clause
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks

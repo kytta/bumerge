@@ -1,5 +1,5 @@
 # SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
-# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-License-Identifier: BSD-3-Clause
 from __future__ import annotations
 
 from contextlib import nullcontext

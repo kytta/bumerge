@@ -1,6 +1,6 @@
 # SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
 #
-# SPDX-License-Identifier: BSD-2-Clause
+# SPDX-License-Identifier: BSD-3-Clause
 
 [build-system]
 build-backend = "hatchling.build"
@@ -12,7 +12,7 @@ requires = [
 name = "bumerge"
 description = "Merge Butane configurations"
 readme = "README.md"
-license = {text = "BSD-2-Clause"}
+license = {text = "BSD-3-Clause"}
 maintainers = [
     { name = "Nikita Karamov", email = "me@kytta.dev" },
 ]
