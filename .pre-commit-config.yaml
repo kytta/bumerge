@@ -51,6 +51,8 @@ repos:
     rev: v1.3.0
     hooks:
       - id: mypy
+        additional_dependencies:
+          - "pydantic<2"
   - repo: https://github.com/DavidAnson/markdownlint-cli2
     rev: v0.7.1
     hooks:

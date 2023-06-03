@@ -54,32 +54,32 @@ def test_main_with_files(capsys, shared_datadir: Path):
         shared_datadir / "filesystems.bu",
     ]
     expected_output = """\
-passwd:
-  users:
-  - groups:
-    - sudo
-    - wheel
-    name: admin
-    ssh_authorized_keys:
-    - ssh-ed25519 ...
+variant: fcos
+version: 1.5.0
 storage:
   disks:
   - device: /dev/disk/by-id/coreos-boot-disk
+    wipe_table: false
     partitions:
     - label: root
       number: 4
-      resize: true
       size_mib: 8192
+      resize: true
     - label: var
       size_mib: 0
-    wipe_table: false
   filesystems:
   - device: /dev/disk/by-partlabel/var
     format: ext4
     path: /var
     with_mount_unit: true
-variant: fcos
-version: 1.5.0
+passwd:
+  users:
+  - name: admin
+    ssh_authorized_keys:
+    - ssh-ed25519 ...
+    groups:
+    - sudo
+    - wheel
 """
 
     bumerge._main([str(f) for f in files])
