@@ -70,28 +70,6 @@ cov = [
 [[tool.hatch.envs.test.matrix]]
 python = ["39", "310", "311"]
 
-[tool.coverage.run]
-plugins = ["covdefaults"]
-
-[tool.mypy]
-python_version = 3.9
-check_untyped_defs = true
-disallow_any_generics = true
-disallow_incomplete_defs = true
-disallow_untyped_defs = true
-warn_redundant_casts = true
-warn_unused_ignores = true
-
-[[tool.mypy.overrides]]
-module = ["tests.*"]
-ignore_missing_imports = true
-check_untyped_defs = false
-disallow_incomplete_defs = false
-disallow_untyped_defs = false
-
-[tool.autopep8]
-ignore = ["W503"]
-
 [tool.ruff]
 line-length = 79
 format = "grouped"
@@ -175,3 +153,25 @@ max-doc-length = 72
 
 [tool.ruff.pydocstyle]
 convention = "pep257"
+
+[tool.coverage.run]
+plugins = ["covdefaults"]
+
+[tool.mypy]
+python_version = 3.9
+check_untyped_defs = true
+disallow_any_generics = true
+disallow_incomplete_defs = true
+disallow_untyped_defs = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+
+[[tool.mypy.overrides]]
+module = ["tests.*"]
+ignore_missing_imports = true
+check_untyped_defs = false
+disallow_incomplete_defs = false
+disallow_untyped_defs = false
+
+[tool.autopep8]
+ignore = ["W503"]
