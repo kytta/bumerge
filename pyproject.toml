@@ -70,6 +70,9 @@ cov = [
 [[tool.hatch.envs.test.matrix]]
 python = ["39", "310", "311"]
 
+[tool.autopep8]
+ignore = ["W503"]
+
 [tool.ruff]
 line-length = 79
 format = "grouped"
@@ -172,6 +175,3 @@ ignore_missing_imports = true
 check_untyped_defs = false
 disallow_incomplete_defs = false
 disallow_untyped_defs = false
-
-[tool.autopep8]
-ignore = ["W503"]
