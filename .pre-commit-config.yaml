@@ -37,7 +37,17 @@ repos:
     rev: "v3.0.0"
     hooks:
       - id: prettier
-        types_or: [markdown, yaml, json]
+        types_or:
+          - json
+          - yaml
+  - repo: https://github.com/executablebooks/mdformat
+    rev: 0.7.16
+    hooks:
+      - id: mdformat
+        additional_dependencies:
+          - mdformat-gfm
+          - mdformat-frontmatter
+          - mdformat-footnote
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
     rev: v0.0.281

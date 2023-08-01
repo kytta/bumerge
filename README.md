@@ -55,18 +55,18 @@ options:
 ## Licence
 
 © 2023 [Nikita Karamov]\
-Licensed under the [BSD 3-Clause "New" or "Revised" License][BSD-3-Clause].
+Licensed under the [BSD 3-Clause "New" or "Revised" License][bsd-3-clause].
 
 This README can also be licensed under the
-[Creative Commons Attribution 4.0 International][CC-BY-4.0]
+[Creative Commons Attribution 4.0 International][cc-by-4.0]
 
----
+______________________________________________________________________
 
 This project is hosted on GitHub:
 <https://github.com/kytta/bumerge.git>
 
-[Butane]: https://coreos.github.io/butane/
-[BSD-3-Clause]: https://spdx.org/licenses/BSD-3-Clause.html
-[CC-BY-4.0]: https://spdx.org/licenses/CC-BY-4.0.html
+[bsd-3-clause]: https://spdx.org/licenses/BSD-3-Clause.html
+[butane]: https://coreos.github.io/butane/
+[cc-by-4.0]: https://spdx.org/licenses/CC-BY-4.0.html
 [fcos-1.5]: https://coreos.github.io/butane/config-fcos-v1_5/
 [nikita karamov]: https://www.kytta.dev/
