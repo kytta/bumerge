@@ -7,7 +7,7 @@ ci:
 
 repos:
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.4.0
+    rev: v4.5.0
     hooks:
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
@@ -29,7 +29,7 @@ repos:
       - id: debug-statements
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: "1.2.0"
+    rev: "1.4.1"
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/hhatto/autopep8
@@ -53,12 +53,12 @@ repos:
           - mdformat-footnote
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.0.292
+    rev: v0.1.4
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.5.1
+    rev: v1.6.1
     hooks:
       - id: mypy
   - repo: https://github.com/DavidAnson/markdownlint-cli2
