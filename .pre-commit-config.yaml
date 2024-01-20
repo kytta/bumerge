@@ -6,6 +6,12 @@ ci:
   autoupdate_schedule: monthly
 
 repos:
+  # should be first to avoid conflicts
+  - repo: https://github.com/fsfe/reuse-tool
+    rev: v2.1.0
+    hooks:
+      - id: reuse
+
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.5.0
     hooks:
@@ -67,8 +73,3 @@ repos:
     rev: v0.11.0
     hooks:
       - id: markdownlint-cli2
-
-  - repo: https://github.com/fsfe/reuse-tool
-    rev: v2.1.0
-    hooks:
-      - id: reuse
