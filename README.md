@@ -20,7 +20,13 @@ Support for other distributions is planned, but not prioritized.
 ## Install
 
 ```sh
-pipx install bumerge  # or pip, or conda, or pipsi, or ...
+pipx install bumerge
+```
+
+Alternatively, with Homebrew:
+
+```sh
+brew install kytta/python/bumerge
 ```
 
 ## Use
