@@ -12,12 +12,12 @@ requires = [
 name = "bumerge"
 description = "Merge Butane configurations"
 readme = "README.md"
-license = {text = "BSD-3-Clause"}
+license = { text = "BSD-3-Clause" }
 maintainers = [
-    { name = "Nikita Karamov", email = "me@kytta.dev" },
+  { name = "Nikita Karamov", email = "me@kytta.dev" },
 ]
 authors = [
-    { name = "Nikita Karamov", email = "me@kytta.dev" },
+  { name = "Nikita Karamov", email = "me@kytta.dev" },
 ]
 requires-python = ">=3.9"
 classifiers = [
@@ -38,15 +38,13 @@ dynamic = [
   "version",
 ]
 dependencies = [
-  "ruamel.yaml>=0.15",
+  "ruamel-yaml>=0.15",
 ]
-[project.urls]
-"Bug tracker" = "https://github.com/kytta/bumerge/issues"
-Changelog = "https://github.com/kytta/bumerge/blob/main/CHANGELOG.md"
-Funding = "https://github.com/sponsors/kytta"
-"Source Code" = "https://github.com/kytta/bumerge/"
-[project.scripts]
-bumerge = "bumerge:_main"
+urls."Bug tracker" = "https://github.com/kytta/bumerge/issues"
+urls.Changelog = "https://github.com/kytta/bumerge/blob/main/CHANGELOG.md"
+urls.Funding = "https://github.com/sponsors/kytta"
+urls."Source Code" = "https://github.com/kytta/bumerge/"
+scripts.bumerge = "bumerge:_main"
 
 [tool.hatch.version]
 path = "bumerge.py"
@@ -60,106 +58,94 @@ dependencies = [
 ]
 [tool.hatch.envs.default.scripts]
 test = [
-    "pytest {args:tests}",
+  "pytest {args:tests}",
 ]
 cov = [
-    "coverage erase",
-    "coverage run -m pytest {args:tests}",
-    "coverage report",
-    "coverage xml"
+  "coverage erase",
+  "coverage run -m pytest {args:tests}",
+  "coverage report",
+  "coverage xml",
 ]
 [[tool.hatch.envs.test.matrix]]
-python = ["39", "310", "311"]
+python = [ "39", "310", "311" ]
 
 [tool.autopep8]
-ignore = ["W503"]
+ignore = [ "W503" ]
 
 [tool.ruff]
 line-length = 79
-output-format = "grouped"
-show-source = true
 
+output-format = "grouped"
 select = [
-    "F",
-    "E",
-    "W",
-    "C90",
-    "I",
-    "N",
-    "D",
-    "UP",
-    "YTT",
-    "ANN",
-    "S",
-    "BLE",
-    "FBT",
-    "B",
-    "A",
-    "COM",
-    "C4",
-    "DTZ",
-    "T10",
-    "EM",
-    "EXE",
-    "ISC",
-    "ICN",
-    "INP",
-    "PIE",
-    "T20",
-    "PT",
-    "Q",
-    "RSE",
-    "RET",
-    "SLF",
-    "SIM",
-    "TID",
-    "TCH",
-    "ARG",
-    "PTH",
-    "ERA",
-    "PGH",
-    "PL",
-    "TRY",
-    "RUF",
+  "F",
+  "E",
+  "W",
+  "C90",
+  "I",
+  "N",
+  "D",
+  "UP",
+  "YTT",
+  "ANN",
+  "S",
+  "BLE",
+  "FBT",
+  "B",
+  "A",
+  "COM",
+  "C4",
+  "DTZ",
+  "T10",
+  "EM",
+  "EXE",
+  "ISC",
+  "ICN",
+  "INP",
+  "PIE",
+  "T20",
+  "PT",
+  "Q",
+  "RSE",
+  "RET",
+  "SLF",
+  "SIM",
+  "TID",
+  "TCH",
+  "ARG",
+  "PTH",
+  "ERA",
+  "PGH",
+  "PL",
+  "TRY",
+  "RUF",
 ]
 extend-ignore = [
-    "ANN101",  # mypy knows what 'self' is
-    "D105",  # docstrings for magic methods
+  "ANN101", # mypy knows what 'self' is
+  "D105",   # docstrings for magic methods
 ]
-unfixable = ["ERA001"]
+unfixable = [ "ERA001" ]
 
-[tool.ruff.per-file-ignores]
-"src/*" = [
-    "PT",
+flake8-annotations.allow-star-arg-any = true
+pydocstyle.convention = "pep257"
+pycodestyle.max-doc-length = 72
+flake8-tidy-imports.ban-relative-imports = "all"
+per-file-ignores."src/*" = [
+  "PT",
 ]
-"tests/*" = [
-    "ANN",  # type annotations
-    "D",  # docstrings
-    "FBT001",  # Boolean positional arg in function definition
-    "PLR0913",  # too many function arguments
-    "PLR2004",  # magic values
-    "S101",  # use of assert detected
-    "SLF001",  # private method accessed
+per-file-ignores."tests/*" = [
+  "ANN",     # type annotations
+  "D",       # docstrings
+  "FBT001",  # Boolean positional arg in function definition
+  "PLR0913", # too many function arguments
+  "PLR2004", # magic values
+  "S101",    # use of assert detected
+  "SLF001",  # private method accessed
 ]
-
-[tool.ruff.flake8-annotations]
-allow-star-arg-any = true
-
-[tool.ruff.flake8-tidy-imports]
-ban-relative-imports = "all"
-
-[tool.ruff.isort]
-force-single-line = true
-required-imports = ["from __future__ import annotations"]
-
-[tool.ruff.pycodestyle]
-max-doc-length = 72
-
-[tool.ruff.pydocstyle]
-convention = "pep257"
+isort.force-single-line = true
+isort.required-imports = [ "from __future__ import annotations" ]
 
 [tool.coverage.run]
-plugins = ["covdefaults"]
+plugins = [ "covdefaults" ]
 
 [tool.mypy]
 python_version = 3.9
@@ -171,7 +157,7 @@ warn_redundant_casts = true
 warn_unused_ignores = true
 
 [[tool.mypy.overrides]]
-module = ["tests.*"]
+module = [ "tests.*" ]
 ignore_missing_imports = true
 check_untyped_defs = false
 disallow_incomplete_defs = false
