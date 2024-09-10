@@ -74,7 +74,6 @@ ignore = [ "W503" ]
 
 [tool.ruff]
 line-length = 79
-show-source = true
 
 output-format = "grouped"
 select = [
