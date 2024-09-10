@@ -31,6 +31,7 @@ classifiers = [
   "Programming Language :: Python :: 3.10",
   "Programming Language :: Python :: 3.11",
   "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
   "Topic :: System :: Systems Administration",
   "Typing :: Typed",
 ]
@@ -143,6 +144,9 @@ per-file-ignores."tests/*" = [
 ]
 isort.force-single-line = true
 isort.required-imports = [ "from __future__ import annotations" ]
+
+[tool.pyproject-fmt]
+max_supported_python = "3.13"
 
 [tool.coverage.run]
 plugins = [ "covdefaults" ]
