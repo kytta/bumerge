@@ -68,7 +68,7 @@ cov = [
   "coverage xml",
 ]
 [[tool.hatch.envs.test.matrix]]
-python = [ "39", "310", "311" ]
+python = [ "39", "310", "311", "312", "313" ]
 
 [tool.autopep8]
 ignore = [ "W503" ]
