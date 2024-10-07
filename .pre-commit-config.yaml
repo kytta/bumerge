@@ -13,7 +13,7 @@ repos:
       - id: reuse
 
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: end-of-file-fixer
       - id: fix-byte-order-marker
@@ -35,7 +35,7 @@ repos:
       - id: debug-statements
 
   - repo: https://github.com/tox-dev/pyproject-fmt
-    rev: "2.2.3"
+    rev: "2.2.4"
     hooks:
       - id: pyproject-fmt
   - repo: https://github.com/hhatto/autopep8
@@ -61,7 +61,7 @@ repos:
           - mdformat-footnote
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.6.4
+    rev: v0.6.9
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
