@@ -42,7 +42,6 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-          allow-prereleases: true
 
       - name: Install Hatch
         run: pip install --upgrade hatch
