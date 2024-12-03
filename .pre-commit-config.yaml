@@ -8,7 +8,7 @@ ci:
 repos:
   # should be first to avoid conflicts
   - repo: https://github.com/fsfe/reuse-tool
-    rev: v4.0.3
+    rev: v5.0.2
     hooks:
       - id: reuse
 
@@ -52,7 +52,7 @@ repos:
           - json
           - yaml
   - repo: https://github.com/executablebooks/mdformat
-    rev: 0.7.18
+    rev: 0.7.19
     hooks:
       - id: mdformat
         additional_dependencies:
@@ -61,7 +61,7 @@ repos:
           - mdformat-footnote
 
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.7.2
+    rev: v0.8.1
     hooks:
       - id: ruff
         args: [--fix, --exit-non-zero-on-fix]
@@ -70,6 +70,6 @@ repos:
     hooks:
       - id: mypy
   - repo: https://github.com/DavidAnson/markdownlint-cli2
-    rev: v0.14.0
+    rev: v0.15.0
     hooks:
       - id: markdownlint-cli2
