@@ -62,10 +62,7 @@ test = [
   "pytest {args:tests}",
 ]
 cov = [
-  "coverage erase",
   "coverage run -m pytest {args:tests}",
-  "coverage report",
-  "coverage xml",
 ]
 [[tool.hatch.envs.test.matrix]]
 python = [ "39", "310", "311", "312", "313" ]
@@ -149,6 +146,7 @@ isort.required-imports = [ "from __future__ import annotations" ]
 max_supported_python = "3.13"
 
 [tool.coverage.run]
+parallel = true
 plugins = [ "covdefaults" ]
 
 [tool.mypy]
