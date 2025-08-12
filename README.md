@@ -3,6 +3,14 @@ SPDX-FileCopyrightText: © 2023 Nikita Karamov <me@kytta.dev>
 SPDX-License-Identifier: CC-BY-4.0 OR BSD-3-Clause
 -->
 
+# bumerge is now on Codeberg
+
+I've had enough with GitHub. This repository is now on Codeberg: https://codeberg.org/kytta/bumerge.git
+
+The repository on GitHub will stay archived (read-only) for a few months before I delete it for good.
+
+<details><summary>Previous README</summary>
+
 # bumerge
 
 > Merge Butane configurations
@@ -76,3 +84,5 @@ This project is hosted on GitHub:
 [cc-by-4.0]: https://spdx.org/licenses/CC-BY-4.0.html
 [fcos-1.5]: https://coreos.github.io/butane/config-fcos-v1_5/
 [nikita karamov]: https://www.kytta.dev/
+
+</details>
